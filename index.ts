@@ -30,7 +30,6 @@ server.on('request', (req: IncomingMessage, res: ServerResponse) => {
         res.end('command failed')
       }
     })
-    res.end('ok');
   } else {
     res.statusCode = 403;
     res.end('Not Allowed')
