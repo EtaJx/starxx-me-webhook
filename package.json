@@ -5,7 +5,8 @@
   "author": "EtaJx <medianeras57@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon index.ts"
+    "dev": "nodemon index.ts",
+    "build": "tsc"
   },
   "devDependencies": {
     "@types/node": "^18.0.0",
