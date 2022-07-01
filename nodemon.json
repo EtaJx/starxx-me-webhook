@@ -1,0 +1,11 @@
+{
+  "verbose": false,
+  "execMap": {
+    "ts": "ts-node"
+  },
+  "ignore": [
+    ".git",
+    "node_modules/**/node_modules"
+  ],
+  "ext": "ts"
+}
