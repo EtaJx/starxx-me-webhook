@@ -1,7 +1,7 @@
 import { IncomingMessage, ServerResponse } from 'http';
 import http from 'http';
 
-const ROUTER_GUARDS = ['POST', '/deploy'];
+const ROUTER_GUARDS = ['POST', '/webhook/deploy'];
 
 const server = http.createServer();
 
