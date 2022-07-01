@@ -1,17 +1,36 @@
 import { IncomingMessage, ServerResponse } from 'http';
+import { exec } from 'child_process';
 import http from 'http';
+import 'dotenv/config';
 
-const ROUTER_GUARDS = ['POST', '/webhook/deploy'];
+const { REQUEST_METHOD, PORT, WEBHOOK_ROUTE, EVENT } = process.env;
+
+const handleUpdateRepo = () => {
+  return new Promise(resolve => {
+    exec('./scripts/updateRepo.sh', err => {
+      if (err) {
+        resolve(false);
+        return;
+      }
+      resolve(true);
+    });
+  });
+}
 
 const server = http.createServer();
 
 server.on('request', (req: IncomingMessage, res: ServerResponse) => {
-  const { method, url } = req;
-  const [ METHOD, URL ] = ROUTER_GUARDS;
-  if (method === METHOD && url === URL) {
-    res.end({
-      success: true
-    });
+  const { method, url, headers } = req;
+  if (method === REQUEST_METHOD && url === WEBHOOK_ROUTE && headers['x-github-event'] === EVENT) {
+    handleUpdateRepo().then(result => {
+      if (result) {
+        res.end('ok');
+      } else {
+        res.statusCode = 500;
+        res.end('command failed')
+      }
+    })
+    res.end('ok');
   } else {
     res.statusCode = 403;
     res.end('Not Allowed')
@@ -20,7 +39,7 @@ server.on('request', (req: IncomingMessage, res: ServerResponse) => {
 
 
 server.on('listening', () => {
-  console.log('server is listening on port 8888');
+  console.log(`server is listening on port ${PORT}`);
 })
 
-server.listen(8888);
+server.listen(PORT);
