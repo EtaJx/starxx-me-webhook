@@ -1,6 +1,7 @@
 echo "updating repo"
 cd ~/nextjs-personal
 git fetch --all
+git reset --hard origin/master
 git pull origin master
 echo "update repo successfully"
 # delete old node_modules folders & force re-install
@@ -11,5 +12,5 @@ echo "update node_modules successfully"
 rm data.json
 # then restart service re-pull fresh list
 echo "restating service"
-pm2 restart nextjs-personal
+pm2 restart personal
 echo "restarted"
